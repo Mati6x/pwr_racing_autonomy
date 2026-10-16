@@ -1,3 +1,5 @@
+# Zadanie 2
+
 ## 2.1 Analiza błędów sensorów
 
 ### Narzędzia
@@ -26,5 +28,13 @@ Dane przeanalizowałem w Pythonie (pandas, matplotlib).
 
 **Podejrzewane źródło:** odbiornik GPS, błędy tutaj mogą wynikać z chwilowej utraty satelitów lub zakłóceń
 
-### Wnioski do 2.2
-Sensory mają **uzupełniające się** wady: sensor 1 jest gęsty i gładki, ale odpływa w długim okresie, a sensor 2 jest rzadki i zaszumiony, ale nie odpływa. Dlatego w 2.2 [...].
+## 2.2
+Sensory mają uzupełniające się wady: sensor 1 jest częsty i gładki, ale odpływa w długim okresie, a sensor 2 jest rzadki i zaszumiony, ale nie odpływa. Dlatego trzeba skorygować dryf sensora 1 pozycją sensora 2.
+
+Niestety nie zdążyłem napisać programu do tego podpunktu. Plan rozwiązania:
+1. Wczytać oba pliki CSV i odwrócić oś y w sensorze 2.
+2. Pozycję sensora 1 w dowolnej chwili t liczyć interpolacją liniową między dwoma sąsiednimi pomiarami, bo czasy pomiarów nie pokrywają się z T ani z pomiarami sensora 2.
+3. W chwilach pomiarów sensora 2 policzyć różnicę e(t) = sensor1(t) − sensor2(t), czyli o ile sensor 1 odpłynął.
+4. Odrzucić odskoki sensora 2 i dopasować do e(t) gładką krzywą (np. a·t² , osobno dla x i y).
+5. Dla zadanego T: pozycja = sensor1(T) − dryf(T).
+6. Pętla „Podaj T” z kontrolą zakresu 0–33.
